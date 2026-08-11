@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockWatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="stock.css">
+</head>
+<body>
+    <canvas class="bg-canvas" id="bgCanvas" aria-hidden="true"></canvas>
+
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner stock-header-inner">
+                <div class="stock-header-left">
+                    <a href="index.html" class="back-btn" aria-label="Back to search">
+                        <svg viewBox="0 0 20 20" fill="none" width="18" height="18">
+                            <path d="M12 5L7 10L12 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Search
+                    </a>
+                    <div class="stock-identity">
+                        <span class="stock-ticker" id="headerTicker">—</span>
+                        <span class="stock-company" id="headerCompany">Loading…</span>
+                    </div>
+                </div>
+                <div class="stock-header-right">
+                    <div class="stock-price-block">
+                        <div class="price-row">
+                            <span class="stock-price" id="headerPrice">—</span>
+                            <span class="stock-change" id="headerChange">—</span>
+                        </div>
+                        <span class="live-badge" id="liveBadge">● Live</span>
+                    </div>
+                    <button class="watchlist-btn" id="watchlistBtn" aria-label="Add to watchlist" title="Add to watchlist">
+                        <svg viewBox="0 0 20 20" fill="none" width="17" height="17">
+                            <path d="M5 3h10a1 1 0 011 1v13l-6-3-6 3V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+                </div>
+            </div>
+        </header>
+
+        <main class="stock-main">
+
+            <!-- Chart -->
+            <section class="chart-section">
+                <div class="period-tabs" id="periodTabs">
+                    <button class="period-btn" data-period="1D">1D</button>
+                    <button class="period-btn" data-period="5D">5D</button>
+                    <button class="period-btn active" data-period="1M">1M</button>
+                    <button class="period-btn" data-period="6M">6M</button>
+                    <button class="period-btn" data-period="1Y">1Y</button>
+                    <button class="period-btn" data-period="5Y">5Y</button>
+                </div>
+                <div id="chartContainer" class="chart-container">
+                    <div class="chart-loader" id="chartLoader">
+                        <div class="spinner-ring"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key stats -->
+            <section class="stats-bar" id="statsBar">
+                <div class="stat"><span class="stat-label">Open</span><span class="stat-value" id="statOpen">—</span></div>
+                <div class="stat"><span class="stat-label">Prev Close</span><span class="stat-value" id="statClose">—</span></div>
+                <div class="stat"><span class="stat-label">Day's Range</span><span class="stat-value" id="statRange">—</span></div>
+                <div class="stat"><span class="stat-label">Volume</span><span class="stat-value" id="statVolume">—</span></div>
+                <div class="stat"><span class="stat-label">Mkt Cap</span><span class="stat-value" id="statMktCap">—</span></div>
+            </section>
+
+            <!-- Sentiment + Summary -->
+            <section class="insight-row">
+                <div class="sentiment-card" id="sentimentCard">
+                    <div class="card-label">Market Sentiment <span class="ai-badge">FinBERT</span></div>
+                    <div class="sentiment-meter">
+                        <div class="meter-track">
+                            <div class="meter-fill" id="meterFill"></div>
+                        </div>
+                        <div class="meter-labels">
+                            <span>Bearish</span><span>Neutral</span><span>Bullish</span>
+                        </div>
+                    </div>
+                    <div class="sentiment-breakdown" id="sentimentBreakdown">
+                        <span class="senti-pill positive" id="pillPos">—</span>
+                        <span class="senti-pill neutral" id="pillNeu">—</span>
+                        <span class="senti-pill negative" id="pillNeg">—</span>
+                    </div>
+                    <div class="sentiment-sub" id="sentimentSub">Analyzing…</div>
+                </div>
+
+                <div class="summary-card" id="summaryCard">
+                    <div class="card-label">AI Summary <span class="ai-badge">Gemini</span></div>
+                    <p class="summary-text" id="summaryText">Generating summary…</p>
+                </div>
+            </section>
+
+            <!-- News + Social -->
+            <section class="feed-row">
+                <!-- News -->
+                <div class="feed-col">
+                    <h2 class="feed-title">News</h2>
+                    <div class="news-list" id="newsList">
+                        <div class="feed-loader"><div class="spinner-ring"></div></div>
+                    </div>
+                </div>
+
+                <!-- Social -->
+                <div class="feed-col">
+                    <div class="social-header">
+                        <h2 class="feed-title">Social</h2>
+                        <div class="social-tabs" id="socialTabs">
+                            <button class="social-tab active" data-tab="reddit">Reddit</button>
+                            <button class="social-tab" data-tab="buzz">Market Buzz</button>
+                            <button class="social-tab" data-tab="community">Community</button>
+                        </div>
+                    </div>
+                    <div class="social-list" id="socialList">
+                        <div class="feed-loader"><div class="spinner-ring"></div></div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="bg.js"></script>
+    <script src="theme.js"></script>
+    <script src="stock.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watchlist — StockWatch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="watchlist.css">
+</head>
+<body>
+    <canvas class="bg-canvas" id="bgCanvas" aria-hidden="true"></canvas>
+    <div class="app">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner watchlist-header-inner">
+                <div class="watchlist-header-left">
+                    <div class="logo">
+                        <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+                            <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="32" height="32" rx="8" fill="#10B981"/>
+                                <path d="M8 22L12 16L16 19L20 12L24 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <circle cx="24" cy="10" r="2" fill="white"/>
+                            </svg>
+                            <span class="logo-text">StockWatch</span>
+                        </a>
+                    </div>
+                    <span class="watchlist-title">Watchlist</span>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+            </div>
+        </header>
+
+        <!-- Main -->
+        <main class="watchlist-main" id="watchlistMain">
+            <!-- Populated by watchlist.js -->
+        </main>
+
+    </div>
+
+    <script src="bg.js"></script>
+    <script src="theme.js"></script>
+    <script src="watchlist.js"></script>
+</body>
+</html>

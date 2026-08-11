@@ -1,0 +1,161 @@
+/* ============================================
+   StockWatch — News Flow Page
+   ============================================ */
+
+.newsflow-header-inner {
+    max-width: 900px;
+    justify-content: space-between;
+}
+
+.newsflow-header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.newsflow-title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.newsflow-ticker {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: 0.03em;
+}
+
+.newsflow-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.newsflow-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 24px 64px;
+    width: 100%;
+}
+
+.newsflow-count {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-bottom: 14px;
+}
+
+.newsflow-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.newsflow-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    text-decoration: none;
+    display: block;
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+.newsflow-card:hover {
+    border-color: rgba(16, 185, 129, 0.35);
+    background: var(--color-surface-hover);
+}
+
+.newsflow-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.newsflow-source {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--color-primary);
+}
+
+.newsflow-time {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+}
+
+.newsflow-headline {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.45;
+    margin-bottom: 8px;
+}
+
+.newsflow-snippet {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.newsflow-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Reuse news-sentiment pill from stock.css */
+.news-sentiment {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+.news-sentiment.positive { background: rgba(16, 185, 129, 0.12); color: #10B981; }
+.news-sentiment.neutral  { background: rgba(156, 163, 175, 0.12); color: #9CA3AF; }
+.news-sentiment.negative { background: rgba(239, 68, 68, 0.12); color: #EF4444; }
+
+.newsflow-read-more {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 48px 16px;
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+}
+
+.feed-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+}
+
+.spinner-ring {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 600px) {
+    .newsflow-main { padding: 16px 16px 48px; }
+    .newsflow-headline { font-size: 0.9375rem; }
+}

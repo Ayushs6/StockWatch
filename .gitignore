@@ -1,0 +1,35 @@
+# ── Secrets ───────────────────────────────────────────────────────────────────
+.env
+*.env
+!.env.example
+
+# ── Python ────────────────────────────────────────────────────────────────────
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# ── Local databases (regenerated at runtime) ──────────────────────────────────
+# stockwatch.db  -> API response cache (rebuilds on demand)
+# vectors.db     -> S&P 500 embeddings (rebuilds from Wikipedia on first launch)
+*.db
+
+# ── Presentation / class artifacts (kept out of the code repo) ────────────────
+*.pptx
+*.pdf
+make_pptx.py
+make_pptx_screenshots.py
+take_screenshots.py
+
+# ── OS / editor / tooling ─────────────────────────────────────────────────────
+.DS_Store
+.claude/
+.wrangler/
+.idea/
+.vscode/
+*.log
+
+# Raw presentation screenshots (curated set lives in docs/)
+screenshots/

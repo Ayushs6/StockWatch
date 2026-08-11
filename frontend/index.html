@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockWatch - AI-Powered Stock Search</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas class="bg-canvas" id="bgCanvas" aria-hidden="true"></canvas>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="8" fill="#10B981"/>
+                        <path d="M8 22L12 16L16 19L20 12L24 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="24" cy="10" r="2" fill="white"/>
+                    </svg>
+                    <span class="logo-text">StockWatch</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px">
+                    <a href="watchlist.html" class="watchlist-nav-link">
+                        <svg viewBox="0 0 20 20" fill="none" width="15" height="15" style="flex-shrink:0">
+                            <path d="M5 3h10a1 1 0 011 1v13l-6-3-6 3V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                        </svg>
+                        Watchlist
+                    </a>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"></button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <main class="main">
+            <div class="hero">
+                <h1 class="hero-title">Search any US-listed stock</h1>
+                <p class="hero-subtitle">
+                    Search by ticker, company name, or concept
+                </p>
+
+                <!-- Search Container -->
+                <div class="search-container" id="searchContainer">
+                    <div class="search-box" id="searchBox">
+                        <svg class="search-icon" viewBox="0 0 20 20" fill="none">
+                            <circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.5"/>
+                            <path d="M14 14L18 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                        <input
+                            type="text"
+                            id="searchInput"
+                            class="search-input"
+                            placeholder="Search stocks... e.g. AAPL, Apple, S&P 500"
+                            autocomplete="off"
+                            spellcheck="false"
+                            aria-label="Search stocks"
+                            aria-expanded="false"
+                            aria-controls="searchResults"
+                            aria-autocomplete="list"
+                            role="combobox"
+                        >
+                        <div class="search-spinner" id="searchSpinner" aria-hidden="true">
+                            <svg viewBox="0 0 20 20" fill="none">
+                                <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="2" stroke-dasharray="40 20" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <kbd class="search-shortcut" id="searchShortcut">/</kbd>
+                    </div>
+
+                    <!-- Results Dropdown -->
+                    <div class="results-dropdown" id="searchResults" role="listbox" aria-label="Search results">
+                        <!-- Results populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Search Hints -->
+                <div class="search-hints">
+                    <span class="hint">Try:</span>
+                    <button class="hint-tag" data-query="AAPL">AAPL</button>
+                    <button class="hint-tag" data-query="Tesla">Tesla</button>
+                    <button class="hint-tag" data-query="S&P 500">S&P 500</button>
+                    <button class="hint-tag" data-query="micro">micro</button>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="bg.js"></script>
+    <script src="theme.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
