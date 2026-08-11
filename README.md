@@ -17,7 +17,9 @@
 
 <br>
 
-![StockWatch search interface](docs/search-dark.png)
+![StockWatch demo — search, semantic search, stock detail, watchlist](docs/demo.gif)
+
+<sub>Product tour: keyword search → semantic search → stock detail → watchlist</sub>
 
 </div>
 
@@ -106,6 +108,64 @@ flowchart TD
 ```
 
 **Request flow:** the browser calls the Flask API → Flask checks SQLite for a fresh cached response (TTL varies by endpoint: 30 s for live price, 5 min for charts, 1 h for news, 24 h for search) → on a miss it fans out to the relevant providers, runs FinBERT / the LLM chain, caches the result, and returns it. Heavy work (sentiment scoring, vector enrichment) is pushed to **background threads** so responses stay fast.
+
+---
+
+## 🔬 Deep Dive: Semantic Search, Explained
+
+Most stock search boxes only match text you *literally type* — search `"AAPL"` and you get Apple, search `"cloud computing"` and you get nothing. StockWatch understands **meaning**, not just characters. Here's exactly how, in four steps.
+
+#### Step 1 — Turn every company into a vector *(once, at startup)*
+
+We scrape the S&P 500 table from Wikipedia and, for each of the ~503 companies, build a short descriptive string:
+
+```
+"AAPL: Apple Inc. Sector: Information Technology. Industry: Technology Hardware, Storage & Peripherals."
+```
+
+That string is fed through **all-MiniLM-L6-v2** (a `sentence-transformers` model) which returns a **384-number vector** — a coordinate in "meaning space" where companies in similar businesses land near each other. Crucially, we ask for **L2-normalized** vectors (every vector has length 1). All 503 vectors are stored as raw `float32` BLOBs in a **SQLite** table (`vectors.db`).
+
+> 💡 **Why normalize?** For unit-length vectors, the dot product **is** the cosine similarity. That turns "how similar are these two meanings?" into a single multiply-and-add — no division, no square roots at query time.
+
+#### Step 2 — Turn the query into a vector too
+
+When you type `"cloud computing"`, the *same* model encodes your query into its own 384-dim unit vector, `q`.
+
+#### Step 3 — Rank all 503 stocks with one matrix multiply
+
+Instead of comparing the query to each stock in a Python loop, we stack all 503 stored vectors into one `503 × 384` matrix `M` and do a **single NumPy matrix–vector product**:
+
+```python
+# vectordb.py
+matrix = np.frombuffer(b"".join(embeddings), dtype=np.float32).reshape(n, 384)
+scores = matrix @ q_vec               # (503×384) @ (384,) → (503,) similarity scores
+top_idx = np.argsort(scores)[::-1][:top_k]   # highest-scoring tickers
+```
+
+One line does *all* the comparisons at once. `scores[i]` is how semantically close company *i* is to your query, on a scale of roughly −1 to 1. For `"cloud computing"` the top scores come back as Microsoft, Amazon, Oracle, Alphabet — none of which contain the words "cloud" or "computing" in their ticker.
+
+#### Step 4 — Fall back gracefully when nothing fits
+
+If the best match scores **below 0.25**, the query probably isn't a real company concept (a typo, a random string). Rather than return weak semantic guesses, the system falls back to **Polygon keyword search**:
+
+```python
+if hits and hits[0]["score"] >= 0.25:
+    results, search_mode = semantic_hits, "semantic"   # confident → semantic
+else:
+    results = polygon_keyword_search(q)                # unsure → keyword
+```
+
+```mermaid
+flowchart LR
+    Q["query<br/>'cloud computing'"] --> E["encode<br/>all-MiniLM-L6-v2"]
+    E --> V["q — 384-dim<br/>unit vector"]
+    V --> DOT["scores = M @ q<br/>(503 comparisons, 1 multiply)"]
+    DOT --> TH{"top score<br/>≥ 0.25?"}
+    TH -->|yes| SEM["Semantic results<br/>MSFT · AMZN · ORCL · GOOGL"]
+    TH -->|no| KW["Keyword fallback<br/>Polygon search"]
+```
+
+**Why it's fast:** the vectors are precomputed and cached, encoding one query is milliseconds, and the ranking is a single BLAS-backed matrix product — so search stays instant even scanning every S&P 500 company on each keystroke.
 
 ---
 
