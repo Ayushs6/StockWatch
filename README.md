@@ -244,9 +244,6 @@ We'd rather be honest than oversell — a few things are constrained by running 
 Built for **CSIT 696 – Research Methods**, Montclair State University · Spring 2026
 
 - **Ayush Shrivastava**
-- **Vishwa Patel**
-- **Ketu Patel**
-- **Hetanshi Shah**
 
 ---
 
