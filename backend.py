@@ -25,6 +25,7 @@ CORS(app)
 
 # ── API keys — supplied via environment variables (never hard-code them) ───────
 # Copy .env.example → .env and drop in your own free-tier keys.
+#Copy all the api keys below by creating your accounts
 POLYGON_KEY       = os.getenv("POLYGON_KEY", "")
 FINNHUB_KEY       = os.getenv("FINNHUB_KEY", "")
 GEMINI_KEY        = os.getenv("GEMINI_KEY", "")
